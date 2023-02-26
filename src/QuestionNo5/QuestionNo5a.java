@@ -1,34 +1,61 @@
 package QuestionNo5;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class QuestionNo5a {
-    public static int[][] getBorder(int[][] height) {
-        int n = height.length;
-        TreeMap<Integer, Integer> map = new TreeMap<>();
-        for (int i = 0; i < n; i++) {
-            int x1 = height[i][0], x2 = height[i][1], h = height[i][2];
-            map.put(x1, Math.max(map.getOrDefault(x1, 0), h));
-            map.put(x2, Math.max(map.getOrDefault(x2, 0), 0));
+    public static int[][] getBorderLine(int[][] height) {
+        // Create a list of x-coordinates of building left and right edges
+        List<Integer> xCoords = new ArrayList<>();
+        for (int[] h : height) {
+            xCoords.add(h[0]);
+            xCoords.add(h[1]);
         }
-        List<int[]> res = new ArrayList<>();
-        int max = 0;
-        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            int x = entry.getKey(), h = entry.getValue();
-            if (max != h) {
-                res.add(new int[] {x, h});
-                max = h;
+        // Sort the x-coordinates in increasing order
+        Collections.sort(xCoords);
+
+        // Initialize an array to store the key points of the border line
+        int[][] keyPoints = new int[xCoords.size()][2];
+
+        // Initialize variables for the previous height and the current index in the keyPoints array
+        int prevHeight = 0;
+        int index = 0;
+
+        // Iterate through the sorted x-coordinates
+        for (int x : xCoords) {
+            int maxHeight = 0;
+            // Iterate through the buildings to find the maximum height at this x-coordinate
+            for (int[] h : height) {
+                if (x >= h[0] && x < h[1]) {
+                    maxHeight = Math.max(maxHeight, h[2]);
+                }
+            }
+            // If the maximum height at this x-coordinate is different from the previous height,
+            // add a new key point to the keyPoints array
+            if (maxHeight != prevHeight) {
+                keyPoints[index][0] = x;
+                keyPoints[index][1] = maxHeight;
+                prevHeight = maxHeight;
+                index++;
             }
         }
-        int[][] result = new int[res.size()][2];
-        for (int i = 0; i < res.size(); i++) {
-            result[i] = res.get(i);
+
+        // Trim the keyPoints array to remove unused elements
+        int[][] result = new int[index][2];
+        for (int i = 0; i < index; i++) {
+            result[i] = keyPoints[i];
         }
+
         return result;
     }
 
     public static void main(String[] args) {
-        int arr [][]={{1, 4, 10}, {2, 5, 15}, {5, 8, 12}, {9, 11, 1}, {11, 13, 15}};
-        System.out.println(Arrays.deepToString(getBorder(arr)));
+        int[][] height = {{1,4,10},{2,5,15},{5,8,12},{9,11,1},{11,13,15}};
+        int[][] borderLine = getBorderLine(height);
+        for (int[] point : borderLine) {
+            System.out.println(point[0] + "," + point[1]);
+        }
     }
+
 }

@@ -21,7 +21,6 @@ public class QuestionNo8b {
         }
         return nums[left-1] + 2 * k;
     }
-
     public static void main(String[] args) {
         System.out.println(findKthMissingEvenNumber(new int[]{0,2,6,18,22},6));
     }

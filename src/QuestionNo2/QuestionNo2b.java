@@ -1,16 +1,20 @@
 package QuestionNo2;
 
-
+// Define the TreeNode class for representing nodes in the binary tree
 class TreeNode {
     int val;         // Value of the node
     TreeNode left;   // Left child of the node
     TreeNode right;  // Right child of the node
 
+    // Constructor for initializing the node value and left and right children
     TreeNode(int val) {
         this.val = val;
     }
 }
+
+// Define the QuestionNo2b class for computing the minimum number of service centers required
 public class QuestionNo2b {
+
     // Define a method to compute the minimum number of service centers required
     public int minServiceCenters(TreeNode root) {
         // If the root is null, then no service centers are required
@@ -33,7 +37,6 @@ public class QuestionNo2b {
             numCenters += minServiceCenters(root.right.left) + minServiceCenters(root.right.right) + 1;
         }
 
-
         // Return the minimum of the total number of service centers required for the
         // left and right subtrees plus 1, and the total number of service centers
         // required for the current node and its immediate children
@@ -52,7 +55,7 @@ public class QuestionNo2b {
         root.right.right = null;
         root.left.right.left = new TreeNode(0);
 
-        // Create an instance of the Solution class
+        // Create an instance of the QuestionNo2b class
         QuestionNo2b smallestNoOfServiceCenter = new QuestionNo2b();
 
         // Call the minServiceCenters method to compute the minimum number of service centers required

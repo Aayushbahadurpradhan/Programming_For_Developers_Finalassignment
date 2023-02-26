@@ -8,10 +8,13 @@ public class QuestionNo7b {
     private static final int NUM_THREADS = 10; // number of threads to use
 
     public static void main(String[] args) {
-        ExecutorService executorService = Executors.newFixedThreadPool(NUM_THREADS); // create executor service with NUM_THREADS threads
-        List<Future<String>> results = new ArrayList<>(); // list to store results from each thread
+        // create an ExecutorService with NUM_THREADS threads
+        ExecutorService executorService = Executors.newFixedThreadPool(NUM_THREADS);
 
-        // submit tasks to executor service
+        // create a list to store results from each task
+        List<Future<String>> results = new ArrayList<>();
+
+        // submit tasks to executor service for crawling 100 different URLs
         for (int i = 0; i < 100; i++) {
             results.add(executorService.submit(new CrawlTask("http://xyz.com/" + i)));
         }
@@ -19,12 +22,16 @@ public class QuestionNo7b {
         // wait for all tasks to finish and collect results
         for (Future<String> result : results) {
             try {
+                // print the result of each task
                 System.out.println(result.get());
             } catch (InterruptedException | ExecutionException e) {
+                // print error message if task fails
                 System.out.println("Task failed: " + e.getMessage());
             }
         }
-        executorService.shutdown(); // shut down executor service
+
+        // shut down executor service
+        executorService.shutdown();
     }
 
     private static class CrawlTask implements Callable<String> {
@@ -40,12 +47,6 @@ public class QuestionNo7b {
             return "Crawled " + url;
         }
     }
+
 }
-/*
-"With this code, an Executor Service is given NUM_THREADS threads,
-and Crawl Task objects are passed to that service. To return the results of a single web crawling process,
-each Crawl Task implements the Callable interface.
-The main program waits for each Future in the results list to finish using the get function.
-The console displays the results of each task.
-Keep in mind that the web crawling logic, which is now empty,
- has to be implemented in the call method of the Crawl Task class."*/
+

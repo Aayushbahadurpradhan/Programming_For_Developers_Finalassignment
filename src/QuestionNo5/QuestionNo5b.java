@@ -4,7 +4,9 @@ import java.util.Arrays;
 
 public class QuestionNo5b {
     public static int batteryReplacement(int[][] serviceCenters, int targetMiles, int startChargeCapacity) {
-        Arrays.sort(serviceCenters, (a, b) -> Integer.compare(a[0], b[0])); // Sort service centers by distance from source city
+        // Sort service centers by distance from source city
+        Arrays.sort(serviceCenters, (a, b) -> Integer.compare(a[0], b[0]));
+
         int batteryCount = 0;
         int currentMiles = startChargeCapacity;
         int index = 0;
